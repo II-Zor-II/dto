@@ -31,10 +31,9 @@ class JsonDecoder implements JsonDecoderInterface
     {
         // https://stackoverflow.com/questions/272361/how-can-i-handle-the-warning-of-file-get-contents-function-in-php
         set_error_handler(
-            create_function(
-                '$severity, $message, $file, $line',
-                'throw new \Dto\Exceptions\JsonDecodingException($message, $severity);'
-            )
+            function () {
+                throw new \Dto\Exceptions\JsonDecodingException('Failed to find Transporter file');
+            }
         );
 
         $content = file_get_contents($filepath);
